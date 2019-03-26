@@ -1,0 +1,19 @@
+{
+  "name": "dw-practical-upcoming-elections",
+  "version": "1.0.0",
+  "description": "Thank you for applying to work at Democracy Works! This coding exercise is designed to show off your ability to program a small application that interacts with an API. You should spend no more than 2 hours on it and then turn it in to us. You may submit by zipping up the contents of your project's directory and emailing it to katrina@democracy.works.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camrynobscura/dw-practical-upcoming-elections.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/camrynobscura/dw-practical-upcoming-elections/issues"
+  },
+  "homepage": "https://github.com/camrynobscura/dw-practical-upcoming-elections#readme"
+}
