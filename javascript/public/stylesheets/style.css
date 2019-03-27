@@ -2,7 +2,12 @@ body {
   font-family: sans-serif;
 }
 
-form {
+main {
+  width: 600px;
+  margin: 0 auto;
+}
+
+form, #results {
   width: 600px;
   padding: 1em;
   border: 1px solid #CCC;
@@ -40,4 +45,8 @@ input:focus {
 
 button {
   margin-left: .5em;
+}
+
+strong {
+  font-weight: bold;
 }

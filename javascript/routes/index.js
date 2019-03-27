@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 //   res.render('search');
 // });
 router.post('/search', async function(req, res) {
+  // grabs the address data entered into the form by the user
   let body = req.body
   let userAddress = {
     street: body.street,
@@ -24,23 +25,36 @@ router.post('/search', async function(req, res) {
     zip: body.zip
   }
 
-  let stateID = `ocd-division/country:us/state:${userAddress.state}`
-  let cityID = `ocd-division/country:us/state:${userAddress.state}/place:${userAddress.city}`
+  let stateOCDID = `ocd-division/country:us/state:${userAddress.state}`
+  let placeOCDID = `ocd-division/country:us/state:${userAddress.state}/place:${
+    userAddress.city
+  }`
 
-  let apiURL = `https://api.turbovote.org/elections/upcoming?district-divisions=${stateID}${cityID}`
+  // combines state OCD-ID and place OCD-ID to create the URL we will use to make our API request
+  let apiURL = `https://api.turbovote.org/elections/upcoming?district-divisions=${stateOCDID},${placeOCDID}`
 
-  console.log('BODY', userAddress)
+  // console.log('BODY', userAddress)
 
   try {
+    // use axios to grab election data (in json) based on apiURL
     let response = await axios.get(`${apiURL}`, {
       headers: {
         Accept: 'application/json'
       }
     })
 
-    console.log('DATA', response.data[0].date)
+    // check if there are any elections for that address
+    if (!response.data.length) {
+      res.render('noResults')
+    } else {
+      // extract website, description, polling place, and date from json
+      let { website, description, date } = response.data[0]
+      let pollingPlace = response.data[0]['polling-place-url']
 
-    res.render('search')
+      // convert date to more readable format
+      let readableDate = new Date(date).toDateString()
+      res.render('search', { description, readableDate, website, pollingPlace })
+    }
   } catch (error) {
     console.log(error)
   }
