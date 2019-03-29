@@ -8,10 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Find My Election', states: us_states })
 })
 
-// router.get('/search', function (req, res) {
-//   res.render('search');
-// });
 router.post('/search', async function(req, res) {
+
   // grabs the address data entered into the form by the user
   let body = req.body
   let userAddress = {
@@ -33,8 +31,6 @@ router.post('/search', async function(req, res) {
   // combines state OCD-ID and place OCD-ID to create the URL we will use to make our API request
   let apiURL = `https://api.turbovote.org/elections/upcoming?district-divisions=${stateOCDID},${placeOCDID}`
 
-  // console.log('BODY', userAddress)
-
   try {
     // use axios to grab election data (in json) based on apiURL
     let response = await axios.get(`${apiURL}`, {
@@ -43,7 +39,7 @@ router.post('/search', async function(req, res) {
       }
     })
 
-    // check if there are any elections for that address
+    // check if there are any elections for that address and if not render the noResults.hbs page
     if (!response.data.length) {
       res.render('noResults')
     } else {
@@ -56,7 +52,7 @@ router.post('/search', async function(req, res) {
       res.render('search', { description, readableDate, website, pollingPlace })
     }
   } catch (error) {
-    console.log(error)
+    res.render('error')
   }
 })
 
